@@ -1,0 +1,3 @@
+marketstack==1.0.0
+SQLAlchemy==1.4.0
+alembic==1.4.3

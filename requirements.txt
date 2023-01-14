@@ -1,0 +1,6 @@
+fastapi==0.61.1
+sqlalchemy==1.4.0
+psycopg2-binary==2.9.2
+uvicorn==0.15.0
+marketstack==0.6.2
+alembic==1.4.3

@@ -17,5 +17,9 @@ variable "client_secret" {
 
 variable "location" {
   description = "The location for the resources"
-  default = "westus2"
+  default = "eastus"
+}
+
+variable "environment" {
+  description="Target environment"
 }

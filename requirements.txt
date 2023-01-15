@@ -4,3 +4,5 @@ psycopg2-binary==2.9.2
 uvicorn==0.15.0
 marketstack==0.6.2
 alembic==1.4.3
+azure-identity==1.4.0
+azure-keyvault-secrets==4.2.0

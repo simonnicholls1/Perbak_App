@@ -8,6 +8,7 @@ variable "tenant_id" {
 
 variable "client_id" {
   description = "The Azure Client ID"
+
 }
 
 variable "client_secret" {

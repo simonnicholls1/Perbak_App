@@ -1,7 +1,8 @@
-from sqlalchemy import Column, String, Date,Float
+from sqlalchemy import Column, String, Date, Float
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
+
 
 class Price(Base):
     __tablename__ = 'prices'

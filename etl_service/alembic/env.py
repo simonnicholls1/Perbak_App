@@ -1,21 +1,22 @@
 # alembic/env.py
-
 from __future__ import with_statement
+import sys
+import os
 
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+APP_DIR = os.path.join(BASE_DIR, '../')
+sys.path.append(APP_DIR)
 from alembic import context
-from sqlalchemy import engine_from_config, pool
+from sqlalchemy import create_engine, pool
+from etl_service.database import get_db_sql_url
 
-# this is the Alembic Config object, which provides
-# access to the values within the .ini file in use.
-config = context.config
+# add model's MetaData object here, need to import models to get the metadata
+from etl_service.models.base_model import Base
+from etl_service.models.price import Price
+from etl_service.models.symbol import Symbol
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
-from perbak_api.data.models import Base
 target_metadata = Base.metadata
-
+url = get_db_sql_url()
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
@@ -33,10 +34,7 @@ def run_migrations_offline():
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
-    context.configure(
-        url=url, target_metadata=target_metadata, literal_binds=True
-    )
+    context.configure(url=url, target_metadata=target_metadata, literal_binds=True)
 
     with context.begin_transaction():
         context.run_migrations()
@@ -49,11 +47,7 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
-        prefix='sqlalchemy.',
-        poolclass=pool.NullPool,
-    )
+    connectable = create_engine(url)
 
     with connectable.connect() as connection:
         context.configure(

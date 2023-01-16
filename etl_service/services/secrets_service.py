@@ -19,3 +19,7 @@ class SecretsService():
         port = self.client.get_secret("postgres-port")
         name = self.client.get_secret("postgres-db-name")
         return user.value, password.value, host.value, port.value, name.value
+
+    def get_marketstack_api_details(self):
+        marketstack_api_key = self.client.get_secret("market-stack-api-key")
+        return marketstack_api_key.value

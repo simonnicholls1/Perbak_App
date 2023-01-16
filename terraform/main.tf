@@ -82,7 +82,7 @@ resource "azurerm_postgresql_server" "perbak_postgres_server" {
   administrator_login_password = data.azurerm_key_vault_secret.postgres_password.value
 
   sku_name = "B_Gen5_1"
-  ssl_enforcement_enabled = "true"
+  ssl_enforcement_enabled = "false"
 }
 
 resource "azurerm_postgresql_database" "perbak_postgres_db" {

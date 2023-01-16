@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 #from core.config import settings
-from api.services.secrets_service import SecretsService
+from perbak_api.services.secrets_service import SecretsService
 
 
 secrets_service = SecretsService()

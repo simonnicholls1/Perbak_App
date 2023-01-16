@@ -1,8 +1,7 @@
 from fastapi import FastAPI, HTTPException
-from api.api.v1.routes import prices
+from perbak_api.api.v1.routes import prices
 import uvicorn
-from api.data.models import Base
-from api.data.database import SessionLocal
+from perbak_api.data.models import Base
 
 app = FastAPI()
 
@@ -15,7 +14,8 @@ async def startup():
 
 @app.on_event("shutdown")
 async def shutdown():
-    await SessionLocal.close_all()
+    pass
+    #await get_db().close_all()
 
 if __name__ =='__main__':
-    uvicorn.run(app, host="0.0.0.0", port=8900)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -3,20 +3,19 @@ provider "azurerm" {
   tenant_id = var.tenant_id
   client_id = var.client_id
   client_secret = var.client_secret
-  version = "=2.32.0"
   features {}
 }
 
 provider "azuread" {
-  version = "=0.8.0"
+
 }
 
 data "azurerm_resource_group" "perbak_rg" {
-  name     = "perbak-app"
+  name     = var.resource_group
 }
 
 data "azurerm_key_vault" "key_vault" {
-  name                = "perbak-keys"
+  name                = var.key_vault_name
   resource_group_name = data.azurerm_resource_group.perbak_rg.name
 }
 
@@ -35,8 +34,15 @@ data "azurerm_key_vault_secret" "postgres_password" {
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
+resource "azurerm_container_registry" "perbak_registry" {
+  name                = var.registry_name
+  resource_group_name = data.azurerm_resource_group.perbak_rg.name
+  location            = data.azurerm_resource_group.perbak_rg.location
+  sku                 = "Standard"
+}
+
 resource "azurerm_kubernetes_cluster" "perbak_cluster" {
-  name                = "perbak_cluster"
+  name                = var.cluster_name
   location            = data.azurerm_resource_group.perbak_rg.location
   resource_group_name = data.azurerm_resource_group.perbak_rg.name
   dns_prefix          = "perbak-cluster"
@@ -80,7 +86,7 @@ resource "azurerm_postgresql_server" "perbak_postgres_server" {
 }
 
 resource "azurerm_postgresql_database" "perbak_postgres_db" {
-  name                = "perbak-db"
+  name                = var.db_name
   resource_group_name = data.azurerm_resource_group.perbak_rg.name
   server_name         = azurerm_postgresql_server.perbak_postgres_server.name
   charset             = "UTF8"

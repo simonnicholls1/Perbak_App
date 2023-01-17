@@ -39,7 +39,7 @@ jobs:
       run: az acr login --name PerbakRegistry
 
     - name: Deploy to AKS
-        run: |
+      run: |
         docker push ${{ secrets.acr_registry }}/perbak_app_etl_service:latest
         docker push ${{ secrets.acr_registry }}/perbak_app_api:latest
 

@@ -55,6 +55,7 @@ jobs:
         vault_url: ${{ secrets.vault_url }}
         client_secret: ${{ secrets.client_secret }}
 
+
     - name: Download kubeconfig from AKS
       run: |
         az aks get-credentials --resource-group parbak-app --name parbak_cluster --file kubeconfig.yaml

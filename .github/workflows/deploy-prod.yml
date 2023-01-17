@@ -10,9 +10,6 @@ env:
   tenant_id: ${{ secrets.tenant_id }}
   client_secret: ${{ secrets.client_secret }}
   vault_url: ${{ secrets.vault_url }}
-  AKS_CLUSTER_NAME: ${{ secrets.AKS_CLUSTER_NAME }}
-  AKS_RESOURCE_GROUP: ${{ secrets.AKS_RESOURCE_GROUP }}
-  AKS_LOCATION: ${{ secrets.AKS_LOCATION }}
 
 jobs:
   build-and-deploy:

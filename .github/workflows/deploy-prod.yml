@@ -1,4 +1,4 @@
-name: ETL Deployment
+name: Services Deployment
 
 on:
   push:

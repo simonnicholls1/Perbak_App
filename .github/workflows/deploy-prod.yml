@@ -56,12 +56,12 @@ jobs:
         client_secret: ${{ secrets.client_secret }}
 
     - name: Download kubeconfig from AKS
-        run: |
-          az aks get-credentials --resource-group parbak-app --name parbak_cluster --file kubeconfig.yaml
-          echo "::set-output name=kubeconfig::$(cat kubeconfig.yaml)"
+      run: |
+        az aks get-credentials --resource-group parbak-app --name parbak_cluster --file kubeconfig.yaml
+        echo "::set-output name=kubeconfig::$(cat kubeconfig.yaml)"
 
     - name: Deploy api to Kubernetes
-        run: |
-          kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f etl_cron.yaml
-          kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f deployment.yaml -f service.yaml -n perbak-api
-          kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  expose deployment perbak-api --type=LoadBalancer --name=api-service
+      run: |
+        kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f etl_cron.yaml
+        kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f deployment.yaml -f service.yaml -n perbak-api
+        kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  expose deployment perbak-api --type=LoadBalancer --name=api-service

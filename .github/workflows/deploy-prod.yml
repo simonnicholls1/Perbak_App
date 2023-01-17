@@ -40,14 +40,6 @@ jobs:
         docker tag perbak_app_api perbakregistry.azurecr.io/perbak_app_api:latest
         docker push perbakregistry.azurecr.io/perbak_app_api:latest
 
-    - name: Set environment variables in deployment yaml
-      run: |
-        sed -i 's|\${client_id}|'"${secrets.client_id}"'|g' etl_service/k8s/deployment.yaml
-        sed -i 's|\${tenant_id}|'"${secrets.tenant_id}"'|g' etl_service/k8s/deployment.yaml
-        sed -i 's|\${vault_url}|'"${secrets.vault_url}"'|g' etl_service/k8s/deployment.yaml
-        sed -i 's|\${client_secret}|'"${secrets.client_secret}"'|g' etl_service/k8s/deployment.yaml
-
-
     - name: Download kubeconfig from AKS
       run: |
         az aks get-credentials --resource-group parbak-app --name parbak_cluster --file kubeconfig.yaml

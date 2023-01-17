@@ -17,5 +17,29 @@ variable "client_secret" {
 
 variable "location" {
   description = "The location for the resources"
-  default = "westus2"
+  default = "eastus"
+}
+
+variable "environment" {
+  description="Target environment"
+}
+
+variable "registry_name" {
+  description = "Registry for images"
+}
+
+variable "resource_group" {
+  description="Resource Group"
+}
+
+variable "db_name" {
+  description = "DB Name"
+}
+
+variable "cluster_name" {
+  description = "K8 cluster name"
+}
+
+variable "key_vault_name" {
+  description = "Name for key vault"
 }

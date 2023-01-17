@@ -1,0 +1,70 @@
+name: ETL Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  client_id: ${{ secrets.client_id }}
+  tenant_id: ${{ secrets.tenant_id }}
+  client_secret: ${{ secrets.client_secret }}
+  vault_url: ${{ secrets.vault_url }}
+  AKS_CLUSTER_NAME: ${{ secrets.AKS_CLUSTER_NAME }}
+  AKS_RESOURCE_GROUP: ${{ secrets.AKS_RESOURCE_GROUP }}
+  AKS_LOCATION: ${{ secrets.AKS_LOCATION }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Set up Docker
+      uses: docker/setup-docker@v2
+      with:
+        version: 20.10.5
+
+    - name: Build Docker image
+      run: docker-compose up --build
+
+    - name: Login to Azure
+      run: az login --service-principal -u $client_id -p $client_secret --tenant $tenant_id
+
+    - name: Login to Azure Container Registry
+      run: az acr login --name PerbakRegistry
+
+    - name: Deploy to AKS
+        run: |
+        docker push ${{ secrets.acr_registry }}/perbak_app_etl_service:latest
+        docker push ${{ secrets.acr_registry }}/perbak_app_api:latest
+
+    - name: Set environment variables in deployment yaml
+      run: |
+        sed -i 's|\${{client_id}}|'"${client_id}"'|g' k8s/deployment.yaml
+        sed -i 's|\${{tenant_id}}|'"${tenant_id}"'|g' k8s/deployment.yaml
+        sed -i 's|\${{vault_url}}|'"${vault_url}"'|g' k8s/deployment.yaml
+        sed -i 's|\${{client_secret}}|'"${client_secret}"'|g' k8s/deployment.yaml
+      env:
+        client_id: ${{ secrets.client_id }}
+        tenant_id: ${{ secrets.tenant_id }}
+        vault_url: ${{ secrets.vault_url }}
+        client_secret: ${{ secrets.client_secret }}
+
+    - name: Download kubeconfig from AKS
+        run: |
+          az aks get-credentials --resource-group parbak-app --name parbak_cluster --file kubeconfig.yaml
+          echo "::set-output name=kubeconfig::$(cat kubeconfig.yaml)"
+
+    - name: Deploy api to Kubernetes
+        run: |
+          kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f etl_cron.yaml
+          kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f deployment.yaml -f service.yaml -n perbak-api
+          kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  expose deployment perbak-api --type=LoadBalancer --name=api-service

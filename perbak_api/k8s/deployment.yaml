@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+  labels:
+    app: api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: perbak_app_api
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        env:
+          - name: client_id
+            value: ${client_id}
+          - name: tenant_id
+            value: ${tenant_id}
+          - name: vault_url
+            value: ${vault_url}
+          - name: client_secret
+            value: ${client_secret}

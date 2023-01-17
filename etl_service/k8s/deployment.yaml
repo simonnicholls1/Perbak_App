@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: etl-deployment
+  labels:
+    app: etl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: etl
+  template:
+    metadata:
+      labels:
+        app: etl
+    spec:
+      containers:
+      - name: etl
+        image: perbak_app_etl_service
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: client_id
+            value: ${client_id}
+          - name: tenant_id
+            value: ${tenant_id}
+          - name: vault_url
+            value: ${vault_url}
+          - name: client_secret
+            value: ${client_secret}

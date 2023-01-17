@@ -17,6 +17,9 @@ class PricesService:
         logger.info('Getting end of day prices for symbols {0}'.format(symbols))
         prices = []
 
+        if end_date is None:
+            end_date = start_date
+
         prices_data = eod.sync(
             client=self.client,
             access_key=self._api_key,

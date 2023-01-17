@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: etl-cron-job
+spec:
+  schedule: "0 10 * * 2-6"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: etl
+              image: perbak_app_etl_service
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: client_id
+                  value: ${client_id}
+                - name: tenant_id
+                  value: ${tenant_id}
+                - name: vault_url
+                  value: ${vault_url}
+                - name: client_secret
+                  value: ${client_secret}
+              command: ["/bin/sh"]
+              args:
+                - -c
+                - >-
+                    python etl_service/main.py prices $(date --date='yesterday' +\%Y-\%m-\%d)
+          restartPolicy: Never

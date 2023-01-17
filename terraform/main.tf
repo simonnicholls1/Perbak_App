@@ -69,6 +69,22 @@ resource "azurerm_kubernetes_cluster" "perbak_cluster" {
   }
 }
 
+provider "kubernetes" {
+  host                   = azurerm_kubernetes_cluster.perbak_cluster.kube_config.0.host
+  username               = azurerm_kubernetes_cluster.perbak_cluster.kube_config.0.username
+  password               = azurerm_kubernetes_cluster.perbak_cluster.kube_config.0.password
+  client_certificate     = base64decode(azurerm_kubernetes_cluster.perbak_cluster.kube_config.0.client_certificate)
+  client_key             = base64decode(azurerm_kubernetes_cluster.perbak_cluster.kube_config.0.client_key)
+  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.perbak_cluster.kube_config.0.cluster_ca_certificate)
+}
+
+
+resource "kubernetes_namespace" "perbak-api" {
+  metadata {
+    name = "perbak-api"
+  }
+}
+
 resource "azurerm_postgresql_server" "perbak_postgres_server" {
   name                = "perbak-postgres-server"
   location            = data.azurerm_resource_group.perbak_rg.location
@@ -83,6 +99,7 @@ resource "azurerm_postgresql_server" "perbak_postgres_server" {
 
   sku_name = "B_Gen5_1"
   ssl_enforcement_enabled = "false"
+  ssl_minimal_tls_version_enforced ="TLSEnforcementDisabled"
 }
 
 resource "azurerm_postgresql_database" "perbak_postgres_db" {

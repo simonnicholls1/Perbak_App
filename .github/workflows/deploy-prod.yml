@@ -41,12 +41,14 @@ jobs:
         docker push perbakregistry.azurecr.io/perbak_app_api:latest
 
     - name: Download kubeconfig from AKS
+      id: get_credentials
       run: |
-        az aks get-credentials --resource-group parbak-app --name parbak_cluster --file kubeconfig.yaml
+        az aks get-credentials --resource-group perbak-app --name perbak_cluster --file kubeconfig.yaml
         echo "::set-output name=kubeconfig::$(cat kubeconfig.yaml)"
 
-    - name: Deploy api to Kubernetes
+    - name: Deploy api and etl to Kubernetes
       run: |
         kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f etl_service/k8s/etl_cron.yaml -n perbak-api
-        kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f perback_api/k8s/deployment.yaml -f perback_api/k8s/service.yaml -n perbak-api
+        kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f perbak_api/k8s/deployment.yaml -f perbak_api/k8s/service.yaml -n perbak-api
         kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  expose deployment perbak-api --type=LoadBalancer --name=api-service
+        kubectl --kubeconfig=kubeconfig.yaml  create -f etl_service/k8s/etl_cron.yaml -n perbak-api

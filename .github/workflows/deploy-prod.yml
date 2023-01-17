@@ -3,7 +3,7 @@ name: Services Deployment
 on:
   push:
     branches:
-      - main
+      - master
 
 env:
   client_id: ${{ secrets.client_id }}

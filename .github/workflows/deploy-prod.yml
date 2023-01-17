@@ -35,10 +35,10 @@ jobs:
 
     - name: Deploy to AKS
       run: |
-        docker tag perbak_app_etl_service PerbakRegistry.azurecr.io/perbak_app_etl_service:latest
-        docker push PerbakRegistry.azurecr.io/perbak_app_etl_service:latest
-        docker tag perbak_app_api PerbakRegistry.azurecr.io/perbak_app_api:latest
-        docker push PerbakRegistry.azurecr.io/perbak_app_api:latest
+        docker tag perbak_app_etl_service perbakregistry.azurecr.io/perbak_app_etl_service:latest
+        docker push perbakregistry.azurecr.io/perbak_app_etl_service:latest
+        docker tag perbak_app_api perbakregistry.azurecr.io/perbak_app_api:latest
+        docker push perbakregistry.azurecr.io/perbak_app_api:latest
 
     - name: Set environment variables in deployment yaml
       run: |
@@ -60,6 +60,6 @@ jobs:
 
     - name: Deploy api to Kubernetes
       run: |
-        kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f etl_cron.yaml
-        kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f deployment.yaml -f service.yaml -n perbak-api
+        kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f etl_service/k8s/etl_cron.yaml -n perbak-api
+        kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  create -f perback_api/k8s/deployment.yaml -f perback_api/k8s/service.yaml -n perbak-api
         kubectl --kubeconfig=${{ steps.get_credentials.outputs.kubeconfig }}  expose deployment perbak-api --type=LoadBalancer --name=api-service

@@ -42,15 +42,10 @@ jobs:
 
     - name: Set environment variables in deployment yaml
       run: |
-        sed -i 's|\${{secrets.client_id}}|'"${secrets.client_id}"'|g' k8s/deployment.yaml
-        sed -i 's|\${{secrets.tenant_id}}|'"${secrets.tenant_id}"'|g' k8s/deployment.yaml
-        sed -i 's|\${{secrets.vault_url}}|'"${secrets.vault_url}"'|g' k8s/deployment.yaml
-        sed -i 's|\${{secrets.client_secret}}|'"${secrets.client_secret}"'|g' k8s/deployment.yaml
-      env:
-        client_id: ${{ secrets.client_id }}
-        tenant_id: ${{ secrets.tenant_id }}
-        vault_url: ${{ secrets.vault_url }}
-        client_secret: ${{ secrets.client_secret }}
+        sed -i 's|\${client_id}|'"${secrets.client_id}"'|g' etl_service/k8s/deployment.yaml
+        sed -i 's|\${tenant_id}|'"${secrets.tenant_id}"'|g' etl_service/k8s/deployment.yaml
+        sed -i 's|\${vault_url}|'"${secrets.vault_url}"'|g' etl_service/k8s/deployment.yaml
+        sed -i 's|\${client_secret}|'"${secrets.client_secret}"'|g' etl_service/k8s/deployment.yaml
 
 
     - name: Download kubeconfig from AKS

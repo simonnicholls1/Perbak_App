@@ -78,12 +78,28 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.perbak_cluster.kube_config.0.cluster_ca_certificate)
 }
 
-
+//Annoying but this doesn't detect if it already exists or not so uncheck if running first time
+//data "kubernetes_namespace" "perbak-api" {
 resource "kubernetes_namespace" "perbak-api" {
   metadata {
     name = "perbak-api"
   }
 }
+
+resource "kubernetes_secret" "perbak_secrets" {
+  metadata {
+    name = "perbak-secrets"
+    namespace = "perbak-api"
+  }
+
+  data = {
+    client_id = var.client_id
+    tenant_id = var.tenant_id
+    client_secret = var.client_secret
+    key_vault = var.key_vault_name
+  }
+}
+
 
 resource "azurerm_postgresql_server" "perbak_postgres_server" {
   name                = "perbak-postgres-server"

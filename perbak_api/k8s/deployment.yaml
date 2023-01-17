@@ -22,10 +22,22 @@ spec:
         - containerPort: 8000
         env:
           - name: client_id
-            value: ${client_id}
+            valueFrom:
+              secretKeyRef:
+                name: perbak-secrets
+                key: client_id
           - name: tenant_id
-            value: ${tenant_id}
-          - name: vault_url
-            value: ${vault_url}
+            valueFrom:
+              secretKeyRef:
+                name: perbak-secrets
+                key: tenant_id
           - name: client_secret
-            value: ${client_secret}
+            valueFrom:
+              secretKeyRef:
+                name: perbak-secrets
+                key: client_secret
+          - name: key_vault
+            valueFrom:
+              secretKeyRef:
+                name: perbak-secrets
+                key: key_vault

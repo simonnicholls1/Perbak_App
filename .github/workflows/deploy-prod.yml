@@ -45,10 +45,10 @@ jobs:
 
     - name: Set environment variables in deployment yaml
       run: |
-        sed -i 's|\${{client_id}}|'"${client_id}"'|g' k8s/deployment.yaml
-        sed -i 's|\${{tenant_id}}|'"${tenant_id}"'|g' k8s/deployment.yaml
-        sed -i 's|\${{vault_url}}|'"${vault_url}"'|g' k8s/deployment.yaml
-        sed -i 's|\${{client_secret}}|'"${client_secret}"'|g' k8s/deployment.yaml
+        sed -i 's|\${{secrets.client_id}}|'"${secrets.client_id}"'|g' k8s/deployment.yaml
+        sed -i 's|\${{secrets.tenant_id}}|'"${secrets.tenant_id}"'|g' k8s/deployment.yaml
+        sed -i 's|\${{secrets.vault_url}}|'"${secrets.vault_url}"'|g' k8s/deployment.yaml
+        sed -i 's|\${{secrets.client_secret}}|'"${secrets.client_secret}"'|g' k8s/deployment.yaml
       env:
         client_id: ${{ secrets.client_id }}
         tenant_id: ${{ secrets.tenant_id }}

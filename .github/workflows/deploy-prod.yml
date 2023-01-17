@@ -35,8 +35,10 @@ jobs:
 
     - name: Deploy to AKS
       run: |
-        docker push ${{ secrets.acr_registry }}/perbak_app_etl_service:latest
-        docker push ${{ secrets.acr_registry }}/perbak_app_api:latest
+        docker tag perbak_app_etl_service PerbakRegistry.azurecr.io/perbak_app_etl_service:latest
+        docker push PerbakRegistry.azurecr.io/perbak_app_etl_service:latest
+        docker tag perbak_app_api PerbakRegistry.azurecr.io/perbak_app_api:latest
+        docker push PerbakRegistry.azurecr.io/perbak_app_api:latest
 
     - name: Set environment variables in deployment yaml
       run: |

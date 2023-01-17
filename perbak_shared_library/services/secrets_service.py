@@ -1,6 +1,6 @@
 from azure.identity import ClientSecretCredential
 from azure.keyvault.secrets import SecretClient
-from perbak_api.config import settings
+from perbak_shared_library.config import settings
 
 
 class SecretsService():

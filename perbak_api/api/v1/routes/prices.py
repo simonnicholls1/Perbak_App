@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from etl_service.database import get_db
-from etl_service.models.price import Price
+from perbak_shared_library.data.database import get_db
+from perbak_shared_library.data.models.price import Price
 
 router = APIRouter(
     prefix='/prices',

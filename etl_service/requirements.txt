@@ -1,9 +1,0 @@
-fastapi==0.70.0
-sqlalchemy==1.4.0
-psycopg2-binary==2.9.2
-uvicorn==0.15.0
-marketstack==0.6.2
-alembic==1.9.2
-azure-identity==1.4.0
-azure-keyvault-secrets==4.2.0
-sqlalchemy_utils

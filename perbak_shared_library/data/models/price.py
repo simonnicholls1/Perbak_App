@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Date, Float
-from etl_service.models.base_model import Base
+from perbak_shared_library.data.models.base_model import Base
 
 
 class Price(Base):

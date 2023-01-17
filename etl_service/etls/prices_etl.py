@@ -1,8 +1,8 @@
 from etl_service.services.prices_service import PricesService
 from sqlalchemy.dialects.postgresql import insert
-from etl_service.models.price import Price
-from etl_service.models.symbol import Symbol
-from etl_service.services.secrets_service import SecretsService
+from perbak_shared_library.data.models.price import Price
+from perbak_shared_library.data.models.symbol import Symbol
+from perbak_shared_library.services.secrets_service import SecretsService
 from sqlalchemy import and_
 import logging
 

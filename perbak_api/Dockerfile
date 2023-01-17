@@ -4,22 +4,25 @@ FROM python:3.9-slim-buster
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
-# Create and set working directory
-RUN mkdir /app
-WORKDIR /app
+# Set working directory
+WORKDIR .
 
 # Copy requirements file
 COPY requirements.txt .
 
 # Install dependencies
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application files
-COPY . .
+# Copy rest of the app
+COPY perbak_api /perbak_api
+COPY perbak_shared_library /perbak_shared_library
+RUN pip install --user /perbak_shared_library
+ENV PYTHONPATH "${PYTHONPATH}:/perbak_shared_library"
+
 
 # Expose port for the API
 EXPOSE 8000
 
 # Run the command to start the API
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "perbak_api.main:app", "--host", "0.0.0.0", "--port", "8000"]

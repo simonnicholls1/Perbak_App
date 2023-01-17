@@ -1,10 +1,7 @@
-from database import get_db
+from perbak_shared_library.data.database import get_db
 import argparse
 from etls.prices_etl import PricesETL
 # Import imports -> they setup the models!!
-from etl_service.models.base_model import Base
-from etl_service.models.price import Price
-from etl_service.models.symbol import Symbol
 
 #Setup logging
 import logging

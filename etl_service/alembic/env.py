@@ -7,13 +7,11 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 APP_DIR = os.path.join(BASE_DIR, '../')
 sys.path.append(APP_DIR)
 from alembic import context
-from sqlalchemy import create_engine, pool
-from etl_service.database import get_db_sql_url
+from sqlalchemy import create_engine
+from perbak_shared_library.data.database import get_db_sql_url
 
 # add model's MetaData object here, need to import models to get the metadata
-from etl_service.models.base_model import Base
-from etl_service.models.price import Price
-from etl_service.models.symbol import Symbol
+from perbak_shared_library.data.models.base_model import Base
 
 target_metadata = Base.metadata
 url = get_db_sql_url()

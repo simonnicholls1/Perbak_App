@@ -1,0 +1,16 @@
+version: '3'
+services:
+  etl_service:
+    build:
+      context: .
+      dockerfile: etl_service/Dockerfile
+    volumes:
+      - .:/Perbak_app
+    working_dir: /Perbak_app
+  api:
+    build:
+      context: .
+      dockerfile: perbak_api/Dockerfile
+    volumes:
+      - .:/Perbak_app
+    working_dir: /Perbak_app

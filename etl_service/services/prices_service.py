@@ -1,5 +1,5 @@
 from marketstack.client import Client
-from etl_service.models.price import Price
+from perbak_shared_library.data.models.price import Price
 from marketstack.api.eod import eod
 import logging
 

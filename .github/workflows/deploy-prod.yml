@@ -24,11 +24,6 @@ jobs:
       with:
         python-version: 3.8
 
-    - name: Set up Docker
-      uses: docker/setup-docker@v2
-      with:
-        version: 20.10.5
-
     - name: Build Docker image
       run: docker-compose up --build
 

@@ -31,7 +31,9 @@ jobs:
       run: az login --service-principal -u $client_id -p $client_secret --tenant $tenant_id
 
     - name: Login to Azure Container Registry
-      run: az acr login --name PerbakRegistry
+      run: |
+        az acr login --name PerbakRegistry
+        az aks update -n perbak_cluster -g perbak-app --attach-acr PerbakRegistry
 
     - name: Deploy to AKS
       run: |
@@ -48,6 +50,6 @@ jobs:
 
     - name: Deploy api and etl to Kubernetes
       run: |
-        kubectl --kubeconfig=kubeconfig.yaml  create -f etl_service/k8s/etl_cron.yaml -n perbak-api
-        kubectl --kubeconfig=kubeconfig.yaml  create -f perbak_api/k8s/deployment.yaml -f perbak_api/k8s/service.yaml -n perbak-api
+        kubectl --kubeconfig=kubeconfig.yaml  apply -f etl_service/k8s/etl_cron.yaml -n perbak-api
+        kubectl --kubeconfig=kubeconfig.yaml  apply -f perbak_api/k8s/deployment.yaml -f perbak_api/k8s/service.yaml -n perbak-api
         kubectl --kubeconfig=kubeconfig.yaml  expose deployment perbak-api --type=LoadBalancer --name=api-service

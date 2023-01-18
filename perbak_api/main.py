@@ -1,10 +1,11 @@
 from fastapi import FastAPI, HTTPException
-from perbak_api.api.v1.routes import prices
+from perbak_api.api.v1.routes import prices, auth
 import uvicorn
 
 app = FastAPI()
 
 app.include_router(prices.router)
+app.include_router(auth.router)
 
 @app.on_event("startup")
 async def startup():

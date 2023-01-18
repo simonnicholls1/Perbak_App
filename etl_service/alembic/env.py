@@ -11,9 +11,13 @@ from sqlalchemy import create_engine
 from perbak_shared_library.data.database import get_db_sql_url
 
 # add model's MetaData object here, need to import models to get the metadata
+from perbak_shared_library.data.models.price import Price
+from perbak_shared_library.data.models.user import User
+from perbak_shared_library.data.models.symbol import Symbol
 from perbak_shared_library.data.models.base_model import Base
-
 target_metadata = Base.metadata
+if len(target_metadata.tables) == 0:
+    raise ValueError('Please make sure you have imported the model tables to add to base metadata as this could really mess with alembic!!')
 url = get_db_sql_url()
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

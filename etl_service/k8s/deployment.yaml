@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: etl
-        image: perbak_app_etl_service
+        image: %%VAULT_URL%%/perbak_app_etl_service
         imagePullPolicy: IfNotPresent
         env:
           - name: client_id
@@ -34,7 +34,7 @@ spec:
               secretKeyRef:
                 name: perbak-secrets
                 key: client_secret
-          - name: key_vault
+          - name: vault_url
             valueFrom:
               secretKeyRef:
                 name: perbak-secrets

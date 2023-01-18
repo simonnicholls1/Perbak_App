@@ -32,8 +32,7 @@ jobs:
 
     - name: Login to Azure Container Registry
       run: |
-        az acr login --name PerbakRegistry
-        az aks update -n perbak_cluster_staging -g perbak-app-staging --attach-acr perbakregistrystaging
+        az acr login --name PerbakRegistryStaging
 
     - name: Deploy to AKS
       run: |
@@ -47,6 +46,11 @@ jobs:
       run: |
         az aks get-credentials --resource-group perbak-app-staging --name perbak_cluster_staging --file kubeconfig.yaml
         echo "::set-output name=kubeconfig::$(cat kubeconfig.yaml)"
+
+    - name: Substitute variables in deployment files
+      run: |
+        sed -i -e "s#%%VAULT_URL%%#perbakregistrystaging.azurecr.io#" etl_service/k8s/etl_cron.yaml
+        sed -i -e "s#%%VAULT_URL%%#perbakregistrystaging.azurecr.io#" perbak_api/k8s/deployment.yaml
 
     - name: Deploy api and etl to Kubernetes
       run: |

@@ -49,8 +49,8 @@ jobs:
 
     - name: Substitute variables in deployment files
       run: |
-        sed -i -e "s#%%VAULT_URL%%#perbakregistrystaging.azurecr.ior#" etl_service/k8s/deployment.yaml
-        sed -i -e "s#%%VAULT_URL%%#perbakregistrystaging.azurecr.ior#" perbak_api/k8s/deployment.yaml
+        sed -i -e "s#%%VAULT_URL%%#perbakregistrystaging.azurecr.io#" etl_service/k8s/deployment.yaml
+        sed -i -e "s#%%VAULT_URL%%#perbakregistrystaging.azurecr.io#" perbak_api/k8s/deployment.yaml
 
     - name: Deploy api and etl to Kubernetes
       run: |

@@ -33,23 +33,22 @@ jobs:
     - name: Login to Azure Container Registry
       run: |
         az acr login --name PerbakRegistry
-        az aks update -n perbak_cluster -g perbak-app --attach-acr PerbakRegistry
+        az aks update -n perbak_cluster_staging -g perbak-app-staging --attach-acr perbakregistrystaging
 
     - name: Deploy to AKS
       run: |
-        docker tag perbak_app_etl_service perbakregistry.azurecr.io/perbak_app_etl_service:latest
-        docker push perbakregistry.azurecr.io/perbak_app_etl_service:latest
-        docker tag perbak_app_api perbakregistry.azurecr.io/perbak_app_api:latest
-        docker push perbakregistry.azurecr.io/perbak_app_api:latest
+        docker tag perbak_app_etl_service perbakregistrystaging.azurecr.io/perbak_app_etl_service:latest
+        docker push perbakregistrystaging.azurecr.io/perbak_app_etl_service:latest
+        docker tag perbak_app_api perbakregistrystaging.azurecr.io/perbak_app_api:latest
+        docker push perbakregistrystaging.azurecr.io/perbak_app_api:latest
 
     - name: Download kubeconfig from AKS
       id: get_credentials
       run: |
-        az aks get-credentials --resource-group perbak-app --name perbak_cluster --file kubeconfig.yaml
+        az aks get-credentials --resource-group perbak-app-staging --name perbak_cluster_staging --file kubeconfig.yaml
         echo "::set-output name=kubeconfig::$(cat kubeconfig.yaml)"
 
     - name: Deploy api and etl to Kubernetes
       run: |
         kubectl --kubeconfig=kubeconfig.yaml  apply -f etl_service/k8s/etl_cron.yaml -n perbak-api
         kubectl --kubeconfig=kubeconfig.yaml  apply -f perbak_api/k8s/deployment.yaml -f perbak_api/k8s/service.yaml -n perbak-api
-        kubectl --kubeconfig=kubeconfig.yaml  expose deployment perbak-api --type=LoadBalancer --name=api-service

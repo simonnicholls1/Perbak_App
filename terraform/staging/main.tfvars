@@ -6,5 +6,7 @@ resource_group="perbak-app-staging"
 db_name="perbak-db-staging"
 db_server_name="perbak-staging-postgres-server"
 cluster_name="perbak_cluster_staging"
-key_vault_name="perbak-keys-staging"
+key_vault_name="perbak-staging-keys"
 registry_name="PerbakRegistryStaging"
+location="eastus2"
+

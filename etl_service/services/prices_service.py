@@ -20,6 +20,7 @@ class PricesService:
         if end_date is None:
             end_date = start_date
 
+        # Grab prices from api
         prices_data = eod.sync(
             client=self.client,
             access_key=self._api_key,
@@ -28,6 +29,7 @@ class PricesService:
             date_to=end_date
         )
 
+        # Little nasty, better ways to do this but convert to prices model
         for data in prices_data.data:
             prices.append(Price(
                 symbol=data.symbol,

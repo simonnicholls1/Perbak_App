@@ -47,6 +47,11 @@ jobs:
         az aks get-credentials --resource-group perbak-app-staging --name perbak_cluster_staging --file kubeconfig.yaml
         echo "::set-output name=kubeconfig::$(cat kubeconfig.yaml)"
 
+    - name: Substitute variables in deployment files
+      run: |
+        sed -i -e "s#%%VAULT_URL%%#perbakregistrystaging.azurecr.ior#" etl_service/k8s/deployment.yaml
+        sed -i -e "s#%%VAULT_URL%%#perbakregistrystaging.azurecr.ior#" perbak_api/k8s/deployment.yaml
+
     - name: Deploy api and etl to Kubernetes
       run: |
         kubectl --kubeconfig=kubeconfig.yaml  apply -f etl_service/k8s/etl_cron.yaml -n perbak-api

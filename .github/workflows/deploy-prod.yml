@@ -51,4 +51,3 @@ jobs:
       run: |
         kubectl --kubeconfig=kubeconfig.yaml  apply -f etl_service/k8s/etl_cron.yaml -n perbak-api
         kubectl --kubeconfig=kubeconfig.yaml  apply -f perbak_api/k8s/deployment.yaml -f perbak_api/k8s/service.yaml -n perbak-api
-        kubectl --kubeconfig=kubeconfig.yaml  expose deployment perbak-api --type=LoadBalancer --name=api-service

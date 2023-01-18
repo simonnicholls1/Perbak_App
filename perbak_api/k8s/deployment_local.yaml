@@ -36,7 +36,7 @@ spec:
               secretKeyRef:
                 name: perbak-secrets
                 key: client_secret
-          - name: key_vault
+          - name: vault_url
             valueFrom:
               secretKeyRef:
                 name: perbak-secrets

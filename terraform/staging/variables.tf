@@ -17,7 +17,7 @@ variable "client_secret" {
 
 variable "location" {
   description = "The location for the resources"
-  default = "eastus"
+  default = "westus"
 }
 
 variable "environment" {
@@ -42,4 +42,8 @@ variable "cluster_name" {
 
 variable "key_vault_name" {
   description = "Name for key vault"
+}
+
+variable "db_server_name" {
+  description="Server name"
 }

@@ -96,13 +96,12 @@ resource "kubernetes_secret" "perbak_secrets" {
     client_id = var.client_id
     tenant_id = var.tenant_id
     client_secret = var.client_secret
-    key_vault = var.key_vault_name
+    key_vault = data.azurerm_key_vault.key_vault.vault_uri
   }
 }
 
-
 resource "azurerm_postgresql_server" "perbak_postgres_server" {
-  name                = "perbak-postgres-server"
+  name                = var.db_server_name
   location            = data.azurerm_resource_group.perbak_rg.location
   resource_group_name = data.azurerm_resource_group.perbak_rg.name
   version             = "10.0"
@@ -124,4 +123,12 @@ resource "azurerm_postgresql_database" "perbak_postgres_db" {
   server_name         = azurerm_postgresql_server.perbak_postgres_server.name
   charset             = "UTF8"
   collation           = "English_United States.1252"
+}
+
+resource "azurerm_postgresql_firewall_rule" "post_gres_firewall_rule" {
+  name                = "firewall_rule"
+  resource_group_name = data.azurerm_resource_group.perbak_rg.name
+  server_name         = azurerm_postgresql_server.perbak_postgres_server.name
+  start_ip_address    = "0.0.0.0"
+  end_ip_address      = "0.0.0.0"
 }

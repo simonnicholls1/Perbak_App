@@ -33,7 +33,6 @@ jobs:
     - name: Login to Azure Container Registry
       run: |
         az acr login --name PerbakRegistry
-        az aks update -n perbak_cluster_staging -g perbak-app-staging --attach-acr perbakregistrystaging
 
     - name: Deploy to AKS
       run: |

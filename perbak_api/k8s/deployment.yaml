@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: %%VALUT_URL%%/perbak_app_api
+        image: http://whatever/perbak_app_api
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000

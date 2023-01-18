@@ -32,7 +32,7 @@ jobs:
 
     - name: Login to Azure Container Registry
       run: |
-        az acr login --name PerbakRegistry
+        az acr login --name PerbakRegistryStaging
 
     - name: Deploy to AKS
       run: |

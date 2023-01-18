@@ -1,7 +1,7 @@
-
 *.pyc
-/terraform/production/.terraform/
 *.hcl
-terraform/production/.terraform/providers/registry.terraform.io/hashicorp/azuread/2.32.0/darwin_amd64/terraform-provider-azuread_v2.32.0_x5
-terraform/production/.terraform/providers/registry.terraform.io/hashicorp/azurerm/3.39.1/darwin_amd64/terraform-provider-azurerm_v3.39.1_x5
-terraform/production/.terraform/providers/registry.terraform.io/hashicorp/kubernetes/2.16.1/darwin_amd64/terraform-provider-kubernetes_v2.16.1_x5
+*.out
+*.tfstate
+*.backup
+*.terraform
+*kubeconfig.yaml

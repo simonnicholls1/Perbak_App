@@ -11,7 +11,7 @@ spec:
           containers:
             - name: etl
               image: %%VAULT_URL%%/perbak_app_etl_service
-              imagePullPolicy: IfNotPresent
+              imagePullPolicy: Always
               env:
                 - name: client_id
                   valueFrom:

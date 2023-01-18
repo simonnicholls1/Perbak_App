@@ -1,3 +1,4 @@
 pytest
 pytest-mock
 mock
+marketstack==0.6.2
